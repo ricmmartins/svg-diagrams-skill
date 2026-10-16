@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1100" role="img" aria-labelledby="azure-template-title azure-template-desc" font-family="Segoe UI, Arial, sans-serif">
+  <title id="azure-template-title">Azure architecture structural template</title>
+  <desc id="azure-template-desc">Illustrative placeholders: an external event reaches workload compute in a virtual network subnet. Compute accesses a data service through a private endpoint in a separate subnet. Independent arrows show managed identity authorization, image delivery, and telemetry. Replace these assumptions with the actual architecture.</desc>
+  <metadata>Structural template; no Microsoft product artwork included. Replace labeled icon slots only with required official unmodified icons. Source and terms: https://learn.microsoft.com/azure/architecture/icons/</metadata>
+  <defs>
+    <marker id="azure-arrow-event" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#0078d4"/></marker>
+    <marker id="azure-arrow-data" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#107c10"/></marker>
+    <marker id="azure-arrow-rbac" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8661c5"/></marker>
+    <marker id="azure-arrow-delivery" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#d47c00"/></marker>
+    <marker id="azure-arrow-telemetry" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#5f6b7a"/></marker>
+  </defs>
+  <rect width="1440" height="1100" fill="#fff"/>
+  <g fill="#243247">
+    <text x="40" y="58" font-size="34" font-weight="bold">Azure architecture - structural template</text>
+    <text x="40" y="94" font-size="22">Replace placeholders and assumptions; retain only verified resources, scopes, and flows.</text>
+  </g>
+
+  <rect id="azure-scope" x="340" y="145" width="1060" height="680" rx="16" fill="#f7f9fc" stroke="#5f6b7a" stroke-width="2" stroke-dasharray="10 6"/>
+  <text data-bounds="azure-scope" x="365" y="187" font-size="24" font-weight="bold" fill="#243247">Actual Azure scope - replace with subscription or resource group</text>
+  <rect id="azure-region" x="365" y="215" width="1010" height="590" rx="12" fill="#fff" stroke="#5f6b7a" stroke-width="2"/>
+  <text data-bounds="azure-region" x="390" y="255" font-size="24" font-weight="bold" fill="#243247">Selected region - verify placement for every resource</text>
+  <rect id="azure-vnet" x="390" y="285" width="610" height="490" rx="12" fill="#f7f9fc" stroke="#107c10" stroke-width="2"/>
+  <text data-bounds="azure-vnet" x="415" y="324" font-size="24" font-weight="bold" fill="#243247">Virtual network - only when present</text>
+  <rect id="azure-workload-subnet" x="415" y="350" width="560" height="175" rx="10" fill="#fff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text data-bounds="azure-workload-subnet" x="435" y="387" font-size="22" fill="#243247">Workload subnet - verify compute membership</text>
+  <rect id="azure-endpoint-subnet" x="415" y="565" width="560" height="180" rx="10" fill="#fff" stroke="#5f6b7a" stroke-width="1.5"/>
+  <text data-bounds="azure-endpoint-subnet" x="435" y="603" font-size="22" fill="#243247">Private endpoint subnet - endpoint NIC only</text>
+
+  <g fill="none" stroke-width="3" stroke-linejoin="round">
+    <path d="M165 380V450H445" stroke="#0078d4" marker-end="url(#azure-arrow-event)"/>
+    <path d="M695 500V555H930V620" stroke="#107c10" marker-end="url(#azure-arrow-data)"/>
+    <path d="M945 672H1040" stroke="#107c10" marker-end="url(#azure-arrow-data)"/>
+    <path d="M1340 495V620" stroke="#8661c5" stroke-dasharray="9 6" marker-end="url(#azure-arrow-rbac)"/>
+    <path d="M200 870V785H375V480H445" stroke="#d47c00" marker-end="url(#azure-arrow-delivery)"/>
+    <path d="M930 405V275H1385V850H1240V870" stroke="#5f6b7a" stroke-dasharray="9 6" marker-end="url(#azure-arrow-telemetry)"/>
+  </g>
+  <g font-size="20" font-weight="bold">
+    <text x="40" y="485" fill="#0078d4">1  Event / HTTPS</text>
+    <text x="710" y="543" fill="#107c10">2  Private data</text>
+    <text x="980" y="650" fill="#107c10">3</text>
+    <text x="1050" y="539" fill="#8661c5"><tspan x="1050">RBAC role + scope</tspan><tspan x="1050" dy="26">Authorization, not traffic</tspan></text>
+    <text x="40" y="837" fill="#d47c00">Build / image</text>
+    <text x="1050" y="851" fill="#5f6b7a">Telemetry export</text>
+  </g>
+
+  <rect id="azure-source-card" x="40" y="230" width="250" height="150" rx="10" fill="#fff" stroke="#0078d4" stroke-width="2"/>
+  <text data-bounds="azure-source-card" x="60" y="270" font-size="24" font-weight="bold" fill="#243247"><tspan x="60">External source</tspan></text>
+  <text data-bounds="azure-source-card" x="60" y="308" font-size="20" fill="#435168"><tspan x="60">Actual producer</tspan><tspan x="60" dy="28">Protocol + auth</tspan></text>
+
+  <rect id="azure-compute-card" x="445" y="405" width="500" height="95" rx="10" fill="#fff" stroke="#0078d4" stroke-width="2"/>
+  <rect id="azure-compute-icon" x="465" y="430" width="44" height="44" rx="4" fill="#f7f9fc" stroke="#5f6b7a" stroke-dasharray="4 3"/>
+  <text data-bounds="azure-compute-icon" data-padding="2" x="487" y="458" text-anchor="middle" font-size="18" fill="#435168">icon</text>
+  <text data-bounds="azure-compute-card" x="530" y="444" font-size="24" font-weight="bold" fill="#243247">Workload compute</text>
+  <text data-bounds="azure-compute-card" x="530" y="476" font-size="20" fill="#435168">Exact Azure product + purpose</text>
+
+  <rect id="azure-endpoint-card" x="445" y="620" width="500" height="95" rx="10" fill="#fff" stroke="#107c10" stroke-width="2"/>
+  <rect id="azure-endpoint-icon" x="465" y="645" width="44" height="44" rx="4" fill="#f7f9fc" stroke="#5f6b7a" stroke-dasharray="4 3"/>
+  <text data-bounds="azure-endpoint-icon" data-padding="2" x="487" y="673" text-anchor="middle" font-size="18" fill="#435168">icon</text>
+  <text data-bounds="azure-endpoint-card" x="530" y="659" font-size="24" font-weight="bold" fill="#243247">Private endpoint</text>
+  <text data-bounds="azure-endpoint-card" x="530" y="691" font-size="20" fill="#435168">Private IP + verified DNS path</text>
+
+  <rect id="azure-identity-card" x="1040" y="365" width="320" height="130" rx="10" fill="#fff" stroke="#8661c5" stroke-width="2"/>
+  <text data-bounds="azure-identity-card" x="1060" y="404" font-size="24" font-weight="bold" fill="#243247">Managed identity</text>
+  <text data-bounds="azure-identity-card" x="1060" y="440" font-size="20" fill="#435168"><tspan x="1060">Principal used by compute</tspan><tspan x="1060" dy="28">Not a network hop</tspan></text>
+  <rect id="azure-data-card" x="1040" y="620" width="320" height="125" rx="10" fill="#fff" stroke="#107c10" stroke-width="2"/>
+  <text data-bounds="azure-data-card" x="1060" y="660" font-size="24" font-weight="bold" fill="#243247">Azure data service</text>
+  <text data-bounds="azure-data-card" x="1060" y="691" font-size="20" fill="#435168"><tspan x="1060">Service stays outside VNet</tspan><tspan x="1060" dy="28">Verify public-access policy</tspan></text>
+
+  <rect id="azure-assumptions" x="40" y="520" width="250" height="255" rx="10" fill="#f7f9fc" stroke="#5f6b7a"/>
+  <text data-bounds="azure-assumptions" x="60" y="558" font-size="22" font-weight="bold" fill="#243247">Before adapting</text>
+  <text data-bounds="azure-assumptions" x="60" y="597" font-size="20" fill="#435168"><tspan x="60">Not a deployment plan.</tspan><tspan x="60" dy="30">Remove unsupported</tspan><tspan x="60" dy="28">boundaries and arrows.</tspan><tspan x="60" dy="36">Replace icon slots with</tspan><tspan x="60" dy="28">official artwork for</tspan><tspan x="60" dy="28">known products only.</tspan></text>
+
+  <rect id="azure-build-card" x="40" y="870" width="320" height="125" rx="10" fill="#fff" stroke="#d47c00" stroke-width="2"/>
+  <text data-bounds="azure-build-card" x="60" y="912" font-size="24" font-weight="bold" fill="#243247">Delivery pipeline</text>
+  <text data-bounds="azure-build-card" x="60" y="944" font-size="20" fill="#435168"><tspan x="60">Actual build + image source</tspan><tspan x="60" dy="28">Separate from runtime flow</tspan></text>
+  <rect id="azure-telemetry-card" x="1080" y="870" width="320" height="125" rx="10" fill="#fff" stroke="#5f6b7a" stroke-width="2"/>
+  <text data-bounds="azure-telemetry-card" x="1100" y="912" font-size="24" font-weight="bold" fill="#243247">Observability</text>
+  <text data-bounds="azure-telemetry-card" x="1100" y="944" font-size="20" fill="#435168"><tspan x="1100">Actual telemetry destination</tspan><tspan x="1100" dy="28">Not in the request path</tspan></text>
+
+  <text x="400" y="907" font-size="22" fill="#243247"><tspan x="400">Dashed outer border: administrative scope.</tspan><tspan x="400" dy="32">Solid inner borders: region, VNet, subnets.</tspan><tspan x="400" dy="32">Border meaning is independent of flow colors.</tspan></text>
+  <g font-size="20" fill="#243247" stroke-width="3">
+    <text x="40" y="1040" font-weight="bold">Legend</text>
+    <path d="M140 1033H184" stroke="#0078d4" marker-end="url(#azure-arrow-event)"/><text x="196" y="1040">Event / HTTPS</text>
+    <path d="M390 1033H434" stroke="#107c10" marker-end="url(#azure-arrow-data)"/><text x="446" y="1040">Private / data</text>
+    <path d="M635 1033H679" stroke="#8661c5" stroke-dasharray="9 6" marker-end="url(#azure-arrow-rbac)"/><text x="691" y="1040">RBAC</text>
+    <path d="M805 1033H849" stroke="#d47c00" marker-end="url(#azure-arrow-delivery)"/><text x="861" y="1040">Build / image</text>
+    <path d="M1060 1033H1104" stroke="#5f6b7a" stroke-dasharray="9 6" marker-end="url(#azure-arrow-telemetry)"/><text x="1116" y="1040">Telemetry</text>
+  </g>
+</svg>

@@ -8,7 +8,57 @@
 - Create architecture diagrams, decision trees, flowcharts, comparison visuals
 - Generate responsive, dark-mode compatible illustrations for docs sites (Docusaurus, MkDocs, Hugo, etc.)
 
+## Install and Update
+
+Clone the skill into your agent's skill directory, keeping `SKILL.md`, `README.md`, `references/`, `assets/`, and `scripts/` together. For GitHub Copilot CLI on Windows:
+
+```powershell
+git clone https://github.com/ricmmartins/svg-diagrams-skill.git "$HOME\.copilot\skills\svg-diagrams"
+```
+
+For other agents, use their supported skill directory. `SKILL.md` is the discoverable entry point; this README remains the original design reference.
+
+For an existing clone, inspect local changes first:
+
+```powershell
+git -C "$HOME\.copilot\skills\svg-diagrams" status --short
+# Only with no conflicting tracked or untracked files:
+git -C "$HOME\.copilot\skills\svg-diagrams" pull --ff-only
+```
+
+If an older installation has a locally created `SKILL.md`, preserve it and merge its instructions before updating; do not overwrite it or discard unrelated changes. Manual installations must copy the supporting directories too, not only the entry point.
+
+## Profiles
+
+**Simple (default):** The palette and compact templates below remain appropriate for flowcharts, decision trees, comparisons, and small architectures. Keep the existing 700px viewBox guideline when practical.
+
+**`azure-architecture` (opt-in):** For detailed Azure diagrams, use [the profile guidance](references/AZURE_ARCHITECTURE.md) and adapt [the self-contained structural template](assets/templates/azure-architecture.svg). It supports a larger canvas, real scope/region/VNet/subnet boundaries, numbered primary flows, and a five-category connector legend. It is an illustrative skeleton, not a deployable topology; remove unsupported boundaries and replace every placeholder.
+
+![Structural Azure template showing event ingress, workload compute, private endpoint data access, and separate authorization, delivery, and telemetry paths.](assets/templates/azure-architecture.svg)
+
+[Open full-size template](assets/templates/azure-architecture.svg) for readable detail on narrow screens.
+
+The visual exemplar is the public [Service Health operator diagram](https://github.com/ricmmartins/azure-service-health-slack-bot/blob/main/img/architecture-flow.svg). Reuse its visual conventions, not its workload-specific architecture.
+
+| Azure flow | Color | Pattern |
+|---|---|---|
+| Event / HTTPS | `#0078d4` | Solid |
+| Private network / data | `#107c10` | Solid |
+| RBAC authorization | `#8661c5` | Dashed |
+| Build / image | `#d47c00` | Solid |
+| Telemetry | `#5f6b7a` | Dashed |
+
+The Azure profile uses a white background and Segoe UI/Arial. Neutral surfaces and **official icon colors/gradients are exempt** from its five-color semantic palette. The template includes labeled icon slots, not Microsoft artwork. Use only the required official, unmodified icons under [Microsoft's terms](https://learn.microsoft.com/en-us/azure/architecture/icons/#icon-terms), embed them self-contained, and attribute their source; see [official icon guidance](references/AZURE_ARCHITECTURE.md#official-icons). Do not bundle the icon library.
+
+## Validation
+
+Every SVG needs accessible `<title>`/`<desc>` labels and meaningful Markdown alt text. Wrap long labels with `<tspan>` and **measure rendered `getBBox()` against padded card bounds**; character counts cannot establish fit. Enlarge or rearrange cards rather than hiding overflow or shrinking labels beyond readability.
+
+Use the dependency-free [browser checker](scripts/validate-svg.js) in a test page, not inside the deliverable SVG. It checks IDs, local references, self-containment, and measured text bounds; the [validation workflow](references/AZURE_ARCHITECTURE.md#overflow-prevention-and-validation) shows XML and browser commands. Inspect screenshots at full and embedded widths, with the fallback font and the actual documentation image context. A large viewBox is not the same as readable mobile text: split dense diagrams or provide a full-size link.
+
 ## Design System
+
+The following original design system applies to the **simple** profile.
 
 ### Color Palette (Azure-inspired, universally professional)
 
@@ -137,7 +187,7 @@ font-family="Segoe UI, Arial, sans-serif"
 3. **Naming**: `kebab-case` — e.g., `aks-architecture.svg`, `cni-decision-tree.svg`
 4. **ViewBox**: Always use `viewBox` without fixed `width`/`height` on the root `<svg>` for responsiveness
 5. **No external dependencies**: Everything self-contained (no external fonts, no linked images)
-6. **Dark mode**: Use fill colors that invert well, or add CSS media queries:
+6. **Dark mode**: For the simple profile, use fill colors that invert well, or add CSS media queries. The Azure profile instead keeps an explicit white background:
 
 ```xml
 <style>
@@ -154,11 +204,15 @@ When you need diagrams in any project, use this instruction:
 
 > "Replace all ASCII art and text-based diagrams with professional inline SVGs. Follow the SVG Technical Diagrams skill: use the Azure-inspired color palette, Segoe UI font, rounded rectangles, proper arrow markers, and save as responsive SVGs in static/img/. For decision trees use green=YES/red=NO convention. Keep it clean, minimal, and professional."
 
+For a detailed Azure architecture:
+
+> "Use the svg-diagrams azure-architecture profile for this architecture. Adapt the structural template to the verified resources and boundaries; use numbered main flows and the semantic connector legend. Keep official icons unmodified and self-contained if used. Wrap and measure labels, then inspect full-size and embedded renders."
+
 ## Anti-patterns
 
 - ❌ Don't use fixed pixel width/height on root SVG (breaks mobile)
 - ❌ Don't use external font links (breaks offline)
 - ❌ Don't use complex gradients or shadows (slow rendering, bad in dark mode)
 - ❌ Don't put text smaller than 8px (unreadable)
-- ❌ Don't use more than 4-5 colors per diagram (visual noise)
-- ❌ Don't make diagrams wider than 700px viewBox (overflow on mobile)
+- ❌ Don't use more than 4-5 semantic colors per diagram (neutral surfaces and official icon artwork are exempt)
+- ❌ Don't cram simple diagrams into a viewBox wider than 700px without need; detailed Azure diagrams may use a larger responsive viewBox, with embedded readability verified
